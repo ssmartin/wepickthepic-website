@@ -26,7 +26,7 @@ const UI = {
     support: 'Support', terms: 'Terms', soon: 'Coming soon to the', title: 'Best Trip Photos',
     privacyTitle: 'Privacy Policy', effective: 'Effective {date}', supportTitle: 'Support',
     supportMeta: 'We’re happy to help.', readPolicy: 'Read the privacy policy →',
-    privacyHeading: 'Private by design', whatTitle: 'Hundreds of photos. One album.', helpTitle: 'Have a question or a problem?',
+    privacyHeading: 'Private by design', whatTitle: 'Hundreds of photos. One album.', best: 'the best', helpTitle: 'Have a question or a problem?',
     helpText: 'The support page answers the most common questions and shows how to reach us.',
     helpButton: 'Go to the support page', notFound: 'Page not found', notFoundText: 'This page doesn’t exist.',
     toHome: 'Go to the WePickThePic homepage →', translationNote: '',
@@ -39,7 +39,7 @@ const UI = {
     support: 'Support', terms: 'Nutzungsbedingungen', soon: 'Bald im', title: 'Die besten Reisefotos',
     privacyTitle: 'Datenschutzerklärung', effective: 'Gültig ab {date}', supportTitle: 'Support',
     supportMeta: 'Wir helfen gern.', readPolicy: 'Zur Datenschutzerklärung →',
-    privacyHeading: 'Privat von Grund auf', whatTitle: 'Hunderte Fotos. Ein Album.', helpTitle: 'Eine Frage oder ein Problem?',
+    privacyHeading: 'Privat von Grund auf', whatTitle: 'Hunderte Fotos. Ein Album.', best: 'die besten', helpTitle: 'Eine Frage oder ein Problem?',
     helpText: 'Die Support-Seite beantwortet die häufigsten Fragen und zeigt, wie du uns erreichst.',
     helpButton: 'Zur Support-Seite', notFound: 'Seite nicht gefunden', notFoundText: 'Diese Seite gibt es nicht.',
     toHome: 'Zur Startseite von WePickThePic →',
@@ -53,7 +53,7 @@ const UI = {
     support: 'Asistență', terms: 'Termeni', soon: 'În curând în', title: 'Cele mai bune poze din călătorii',
     privacyTitle: 'Politica de confidențialitate', effective: 'În vigoare din {date}', supportTitle: 'Asistență',
     supportMeta: 'Te ajutăm cu drag.', readPolicy: 'Citește politica de confidențialitate →',
-    privacyHeading: 'Privat din start', whatTitle: 'Sute de poze. Un singur album.', helpTitle: 'Ai o întrebare sau o problemă?',
+    privacyHeading: 'Privat din start', whatTitle: 'Sute de poze. Un singur album.', best: 'cele mai bune', helpTitle: 'Ai o întrebare sau o problemă?',
     helpText: 'Pagina de asistență răspunde la cele mai frecvente întrebări și arată cum ne poți contacta.',
     helpButton: 'Mergi la pagina de asistență', notFound: 'Pagina nu a fost găsită', notFoundText: 'Această pagină nu există.',
     toHome: 'Mergi la pagina principală WePickThePic →',
@@ -67,7 +67,7 @@ const UI = {
     support: 'Soporte', terms: 'Términos', soon: 'Muy pronto en la', title: 'Las mejores fotos de viaje',
     privacyTitle: 'Política de privacidad', effective: 'Vigente desde el {date}', supportTitle: 'Soporte',
     supportMeta: 'Estamos encantados de ayudarte.', readPolicy: 'Leer la política de privacidad →',
-    privacyHeading: 'Privado desde el diseño', whatTitle: 'Cientos de fotos. Un solo álbum.', helpTitle: '¿Tienes una pregunta o un problema?',
+    privacyHeading: 'Privado desde el diseño', whatTitle: 'Cientos de fotos. Un solo álbum.', best: 'las mejores', helpTitle: '¿Tienes una pregunta o un problema?',
     helpText: 'La página de soporte responde a las preguntas más frecuentes y explica cómo contactarnos.',
     helpButton: 'Ir a la página de soporte', notFound: 'Página no encontrada', notFoundText: 'Esta página no existe.',
     toHome: 'Ir a la página de inicio de WePickThePic →',
@@ -204,6 +204,14 @@ function write(path, html) {
 
 // ---------- Pages ----------
 
+/** "Everyone takes pictures.<br>We pick <span>the best</span>.": the second sentence on its own line, the best in coral. */
+function headline(tagline, best) {
+  const cut = tagline.indexOf('. ') + 1;
+  const second = esc(tagline.slice(cut).trim());
+  if (!second.includes(best)) throw new Error(`"${best}" not in the tagline "${tagline}"`);
+  return `${esc(tagline.slice(0, cut))}<br>${second.replace(best, `<span>${best}</span>`)}`;
+}
+
 function home(lang) {
   const ui = UI[lang];
   const l = listing(lang);
@@ -223,7 +231,7 @@ function home(lang) {
     <section class="hero">
       <div class="wrap">
         <img src="/assets/icon-512.png" alt="WePickThePic" width="96" height="96" class="hero-icon">
-        <h1>${esc(l.tagline)}</h1>
+        <h1>${headline(l.tagline, ui.best)}</h1>
         <p class="lead">${esc(lead)}</p>
         <div class="pills">
 ${l.proof.map((x) => `          <span class="pill">${esc(x)}</span>`).join('\n')}

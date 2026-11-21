@@ -246,3 +246,7 @@ dialog.lightbox img { max-width: 92vw; max-height: 92vh; width: auto; height: au
 .ticks li::before { content: "✓"; position: absolute; left: 0; color: var(--brand); font-weight: 800; }
 .together-block { background: var(--brand-soft); border-radius: 24px; padding: 40px 28px; }
 .together-block .ticks { color: var(--text); font-size: 16px; gap: 10px 24px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+/* The tagline's "the best": the app's coral (a shade deeper on light backgrounds for contrast on large text). */
+.hero h1 span { color: #EE5A44; }
+@media (prefers-color-scheme: dark) { .hero h1 span { color: #FF6B57; } }
