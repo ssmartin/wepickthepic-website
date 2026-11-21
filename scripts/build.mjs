@@ -17,6 +17,8 @@ const read = (path) => readFileSync(join(app, path), 'utf8');
 const DOMAIN = 'https://wepickthepic.app';
 const EMAIL = 'smartin.appsupport@gmail.com';
 const LANGS = ['en', 'de', 'ro', 'es'];
+/** Pages only in English: the language menu leads to each language's home page instead. */
+const ONE_LANGUAGE = ['/terms/', '/changes/', '/404'];
 
 // ---------- Words of the site itself ----------
 
@@ -32,7 +34,7 @@ const UI = {
     toHome: 'Go to the WePickThePic homepage →', translationNote: '',
     contactInApp: 'The quickest way: in WePickThePic, go to <strong>Settings › Contact support</strong> and choose to include the diagnostic info: the app version, your iPhone model and what the app did recently. It never contains your photos or their places, you see all of it in the email before you send it, and it helps us find the problem much faster.',
     contactMail: 'Can’t open the app? Email <a href="mailto:{email}">{email}</a> and mention your iPhone model and iOS version.',
-    contactTitle: 'Contact',
+    contactTitle: 'Contact', whatsNew: 'What’s new',
   },
   de: {
     name: 'Deutsch', locale: 'de-DE', home: 'Start', features: 'Funktionen', together: 'Gemeinsam', privacy: 'Datenschutz',
@@ -46,7 +48,7 @@ const UI = {
     translationNote: 'Dies ist eine Übersetzung zur besseren Verständlichkeit. Rechtlich maßgeblich ist die <a href="/privacy/">englische Fassung</a>.',
     contactInApp: 'Am schnellsten: Geh in WePickThePic zu <strong>Einstellungen › Support kontaktieren</strong> und füge die Diagnoseinfos hinzu: die App-Version, dein iPhone-Modell und was die App zuletzt getan hat. Sie enthalten nie deine Fotos oder deren Orte, du siehst alles in der E-Mail, bevor du sie sendest, und sie helfen uns, das Problem viel schneller zu finden.',
     contactMail: 'Die App lässt sich nicht öffnen? Schreib an <a href="mailto:{email}">{email}</a> und nenne dein iPhone-Modell und die iOS-Version.',
-    contactTitle: 'Kontakt',
+    contactTitle: 'Kontakt', whatsNew: 'Neuigkeiten',
   },
   ro: {
     name: 'Română', locale: 'ro-RO', home: 'Acasă', features: 'Funcții', together: 'Împreună', privacy: 'Confidențialitate',
@@ -60,7 +62,7 @@ const UI = {
     translationNote: 'Aceasta este o traducere pentru o înțelegere mai ușoară. Versiunea obligatorie din punct de vedere juridic este <a href="/privacy/">cea în engleză</a>.',
     contactInApp: 'Cel mai rapid: în WePickThePic, mergi la <strong>Setări › Contactează asistența</strong> și alege să incluzi informațiile de diagnostic: versiunea aplicației, modelul iPhone-ului și ce a făcut aplicația recent. Nu conțin niciodată fotografiile tale sau locurile lor, vezi totul în e-mail înainte să-l trimiți și ne ajută să găsim problema mult mai repede.',
     contactMail: 'Nu poți deschide aplicația? Scrie la <a href="mailto:{email}">{email}</a> și menționează modelul iPhone-ului și versiunea iOS.',
-    contactTitle: 'Contact',
+    contactTitle: 'Contact', whatsNew: 'Noutăți',
   },
   es: {
     name: 'Español', locale: 'es-ES', home: 'Inicio', features: 'Funciones', together: 'Juntos', privacy: 'Privacidad',
@@ -74,7 +76,7 @@ const UI = {
     translationNote: 'Esta es una traducción para facilitar la comprensión. La versión jurídicamente vinculante es <a href="/privacy/">la inglesa</a>.',
     contactInApp: 'Lo más rápido: en WePickThePic, ve a <strong>Ajustes › Contactar con soporte</strong> y elige incluir la información de diagnóstico: la versión de la app, el modelo de tu iPhone y lo que hizo la app recientemente. Nunca contiene tus fotos ni sus lugares, lo ves todo en el correo antes de enviarlo y nos ayuda a encontrar el problema mucho más rápido.',
     contactMail: '¿No puedes abrir la app? Escribe a <a href="mailto:{email}">{email}</a> e indica el modelo de tu iPhone y la versión de iOS.',
-    contactTitle: 'Contacto',
+    contactTitle: 'Contacto', whatsNew: 'Novedades',
   },
 };
 
@@ -140,13 +142,13 @@ function inline(text, lang) {
 function page({ lang, path, title, description, body, nav }) {
   const ui = UI[lang];
   const own = (l) => `${prefix(l)}${path}`;
-  const alternates = path === '/terms/' || path === '/404'
+  const alternates = ONE_LANGUAGE.includes(path)
     ? ''
     : LANGS.map((l) => `  <link rel="alternate" hreflang="${l}" href="${DOMAIN}${own(l)}">`).join('\n') +
       `\n  <link rel="alternate" hreflang="x-default" href="${DOMAIN}${path}">\n`;
   const menu = LANGS.map(
     (l) =>
-      `            <li><a href="${path === '/terms/' || path === '/404' ? `${prefix(l)}/` : own(l)}" hreflang="${l}" lang="${l}"${l === lang ? ' aria-current="true"' : ''}>${UI[l].name}</a></li>`,
+      `            <li><a href="${ONE_LANGUAGE.includes(path) ? `${prefix(l)}/` : own(l)}" hreflang="${l}" lang="${l}"${l === lang ? ' aria-current="true"' : ''}>${UI[l].name}</a></li>`,
   ).join('\n');
   const p = prefix(lang);
   return `<!doctype html>
@@ -187,7 +189,7 @@ ${body}
   <footer class="site">
     <div class="wrap">
       <div>© 2026 Sergiu Martin</div>
-      <div><a href="${p}/privacy/">${ui.privacy}</a><a href="/terms/">${ui.terms}</a><a href="${p}/support/">${ui.support}</a></div>
+      <div><a href="${p}/privacy/">${ui.privacy}</a><a href="/terms/">${ui.terms}</a><a href="${p}/support/">${ui.support}</a><a href="/changes/">${ui.whatsNew}</a></div>
     </div>
   </footer>
   <script src="/assets/menu.js" defer></script>
@@ -405,6 +407,34 @@ ${TERMS.map(([h, t]) => `        <h2>${h}</h2>\n        <p>${t}</p>`).join('\n')
   write('terms/index.html', page({ lang: 'en', path: '/terms/', title: 'Terms of Use – WePickThePic', description: 'Terms of use for WePickThePic.', body }));
 }
 
+/** What's new, from the app repository's docs/WHATS-NEW.md (English, like OurCents' page). */
+function changes() {
+  const text = read('docs/WHATS-NEW.md').replace(/<!--[\s\S]*?-->/g, '');
+  const [head, ...versions] = text.split(/^## /m);
+  const intro = head.replace(/^# .*\n/, '').trim();
+  const out = versions.map((block) => {
+    const [title, ...rest] = block.split('\n');
+    const note = rest.filter((l) => l.trim() && !l.startsWith('- ')).map((l) => `        <p>${inline(l.trim(), 'en')}</p>`);
+    const items = rest.filter((l) => l.startsWith('- ')).map((l) => `          <li>${inline(l.slice(2), 'en')}</li>`);
+    return [`        <h2>${esc(title.trim())}</h2>`, ...note, '        <ul>', ...items, '        </ul>'].join('\n');
+  });
+  const updated = versions[0]?.match(/– (.+)$/m)?.[1] ?? '';
+  const body = `  <main class="page">
+    <div class="wrap">
+      <article>
+        <h1>What’s new</h1>
+        <p class="meta">Updated ${esc(updated)}</p>
+        <p>${inline(intro, 'en')}</p>
+${out.join('\n')}
+      </article>
+    </div>
+  </main>`;
+  write('changes/index.html', page({
+    lang: 'en', path: '/changes/', title: 'What’s new – WePickThePic',
+    description: 'What changed in WePickThePic, newest first: new features, improvements and fixes.', body,
+  }));
+}
+
 function notFound() {
   const ui = UI.en;
   const body = `  <main class="page">
@@ -425,5 +455,6 @@ for (const lang of LANGS) {
   support(lang);
 }
 terms();
+changes();
 notFound();
 console.log(`Built from ${app}`);
