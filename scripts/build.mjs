@@ -26,7 +26,7 @@ const UI = {
     support: 'Support', terms: 'Terms', soon: 'Coming soon to the', title: 'Best Trip Photos',
     privacyTitle: 'Privacy Policy', effective: 'Effective {date}', supportTitle: 'Support',
     supportMeta: 'We’re happy to help.', readPolicy: 'Read the privacy policy →',
-    privacyHeading: 'Private by design', helpTitle: 'Have a question or a problem?',
+    privacyHeading: 'Private by design', whatTitle: 'Hundreds of photos. One album.', helpTitle: 'Have a question or a problem?',
     helpText: 'The support page answers the most common questions and shows how to reach us.',
     helpButton: 'Go to the support page', notFound: 'Page not found', notFoundText: 'This page doesn’t exist.',
     toHome: 'Go to the WePickThePic homepage →', translationNote: '',
@@ -39,7 +39,7 @@ const UI = {
     support: 'Support', terms: 'Nutzungsbedingungen', soon: 'Bald im', title: 'Die besten Reisefotos',
     privacyTitle: 'Datenschutzerklärung', effective: 'Gültig ab {date}', supportTitle: 'Support',
     supportMeta: 'Wir helfen gern.', readPolicy: 'Zur Datenschutzerklärung →',
-    privacyHeading: 'Privat von Grund auf', helpTitle: 'Eine Frage oder ein Problem?',
+    privacyHeading: 'Privat von Grund auf', whatTitle: 'Hunderte Fotos. Ein Album.', helpTitle: 'Eine Frage oder ein Problem?',
     helpText: 'Die Support-Seite beantwortet die häufigsten Fragen und zeigt, wie du uns erreichst.',
     helpButton: 'Zur Support-Seite', notFound: 'Seite nicht gefunden', notFoundText: 'Diese Seite gibt es nicht.',
     toHome: 'Zur Startseite von WePickThePic →',
@@ -53,7 +53,7 @@ const UI = {
     support: 'Asistență', terms: 'Termeni', soon: 'În curând în', title: 'Cele mai bune poze din călătorii',
     privacyTitle: 'Politica de confidențialitate', effective: 'În vigoare din {date}', supportTitle: 'Asistență',
     supportMeta: 'Te ajutăm cu drag.', readPolicy: 'Citește politica de confidențialitate →',
-    privacyHeading: 'Privat din start', helpTitle: 'Ai o întrebare sau o problemă?',
+    privacyHeading: 'Privat din start', whatTitle: 'Sute de poze. Un singur album.', helpTitle: 'Ai o întrebare sau o problemă?',
     helpText: 'Pagina de asistență răspunde la cele mai frecvente întrebări și arată cum ne poți contacta.',
     helpButton: 'Mergi la pagina de asistență', notFound: 'Pagina nu a fost găsită', notFoundText: 'Această pagină nu există.',
     toHome: 'Mergi la pagina principală WePickThePic →',
@@ -67,7 +67,7 @@ const UI = {
     support: 'Soporte', terms: 'Términos', soon: 'Muy pronto en la', title: 'Las mejores fotos de viaje',
     privacyTitle: 'Política de privacidad', effective: 'Vigente desde el {date}', supportTitle: 'Soporte',
     supportMeta: 'Estamos encantados de ayudarte.', readPolicy: 'Leer la política de privacidad →',
-    privacyHeading: 'Privado desde el diseño', helpTitle: '¿Tienes una pregunta o un problema?',
+    privacyHeading: 'Privado desde el diseño', whatTitle: 'Cientos de fotos. Un solo álbum.', helpTitle: '¿Tienes una pregunta o un problema?',
     helpText: 'La página de soporte responde a las preguntas más frecuentes y explica cómo contactarnos.',
     helpButton: 'Ir a la página de soporte', notFound: 'Página no encontrada', notFoundText: 'Esta página no existe.',
     toHome: 'Ir a la página de inicio de WePickThePic →',
@@ -208,8 +208,16 @@ function home(lang) {
   const ui = UI[lang];
   const l = listing(lang);
   const [lead, what, together] = l.paragraphs;
-  const privacySection = l.sections[3];
-  const featureSections = l.sections.filter((s) => s !== privacySection);
+  // The description's sections, in order: picks the best, finds your trips, together, private, nothing deleted.
+  const [picks, trips, togetherSection, privacySection, kept] = l.sections;
+  const cards = [
+    ['✨', picks],
+    ['🗺️', trips],
+    ['🛡️', kept],
+  ];
+  // "Travelled with friends? Make the album together: …": the question is the heading.
+  const question = together.indexOf('?') + 1;
+  const ticks = (items, indent) => items.map((i) => `${indent}<li>${esc(i)}</li>`).join('\n');
   const p = prefix(lang);
   const body = `  <main>
     <section class="hero">
@@ -229,19 +237,34 @@ ${l.proof.map((x) => `          <span class="pill">${esc(x)}</span>`).join('\n')
 
     <section id="features">
       <div class="wrap">
-        <p class="sub">${esc(what)}</p>
-        <p class="sub">${esc(together)}</p>
-        <div class="grid">
-${featureSections
+        <div class="center">
+          <h2>${ui.whatTitle}</h2>
+          <p class="sub">${esc(what)}</p>
+        </div>
+        <div class="grid three">
+${cards
   .map(
-    (s) => `          <div class="card">
+    ([icon, s]) => `          <div class="card">
+            <div class="icon" aria-hidden="true">${icon}</div>
             <h3>${esc(s.title.charAt(0) + s.title.slice(1).toLowerCase())}</h3>
-            <ul>
-${s.items.map((i) => `              <li>${esc(i)}</li>`).join('\n')}
+            <ul class="ticks">
+${ticks(s.items, '              ')}
             </ul>
           </div>`,
   )
   .join('\n')}
+        </div>
+      </div>
+    </section>
+
+    <section id="together">
+      <div class="wrap">
+        <div class="together-block">
+          <h2>${esc(together.slice(0, question))}</h2>
+          <p class="sub">${esc(together.slice(question).trim())}</p>
+          <ul class="ticks">
+${ticks(togetherSection.items, '            ')}
+          </ul>
         </div>
       </div>
     </section>
@@ -272,6 +295,7 @@ ${privacySection.items.map((i) => `            <li>${esc(i)}</li>`).join('\n')}
     lang, path: '/', title: `WePickThePic – ${ui.title}`, description: `${l.tagline} ${l.proof.join('. ')}.`,
     body,
     nav: `        <a href="#features">${ui.features}</a>
+        <a href="#together">${ui.together}</a>
         <a href="#privacy">${ui.privacy}</a>
         <a href="${p}/support/">${ui.support}</a>`,
   }));
