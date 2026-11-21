@@ -40,10 +40,10 @@ const UI = {
     contactTitle: 'Contact', whatsNew: 'What’s new', whatsComing: 'What’s coming',
     lookTitle: 'A look inside', lookSub: 'Find your trips, keep the best photos and make the album with friends.',
     prev: 'Previous screenshots', next: 'Next screenshots', close: 'Close', page: 'Screenshots {n}',
-    proTitle: 'Free to try. Pro, if you want more.', proSub: 'WePickThePic is free to download. Pro is a yearly subscription.',
+    proTitle: 'Free to try. Pro, if you want more.', proSub: 'WePickThePic is free to download. Pro is bought once: no subscription.',
     free: 'Free', freePrice: 'Free to download', freeAlbums: '{n} albums, alone or with friends',
     freeEveryone: '“Everyone’s photos” {n} times, when you start it', freeJoin: 'Joining a friend’s album: always free',
-    freeChange: 'Changing a saved album stays free', perYear: '{price} a year', priceNote: 'Prices can vary by country.',
+    freeChange: 'Changing a saved album stays free', perYear: '{price} once', launchNote: 'Launch price. Later {later}.', priceNote: 'Prices can vary by country.',
   },
   de: {
     name: 'Deutsch', locale: 'de-DE', home: 'Start', features: 'Funktionen', together: 'Gemeinsam', privacy: 'Datenschutz',
@@ -60,10 +60,10 @@ const UI = {
     contactTitle: 'Kontakt', whatsNew: 'Neuigkeiten', whatsComing: 'Was kommt',
     lookTitle: 'Ein Blick hinein', lookSub: 'Deine Reisen finden, die besten Fotos behalten und das Album mit Freunden machen.',
     prev: 'Vorherige Bildschirmfotos', next: 'Nächste Bildschirmfotos', close: 'Schließen', page: 'Bildschirmfotos {n}',
-    proTitle: 'Kostenlos ausprobieren. Pro, wenn du mehr willst.', proSub: 'WePickThePic ist kostenlos zum Herunterladen. Pro ist ein Jahresabo.',
+    proTitle: 'Kostenlos ausprobieren. Pro, wenn du mehr willst.', proSub: 'WePickThePic ist kostenlos zum Herunterladen. Pro kaufst du einmal: kein Abo.',
     free: 'Kostenlos', freePrice: 'Kostenlos zum Herunterladen', freeAlbums: '{n} Alben, allein oder mit Freunden',
     freeEveryone: '„Fotos von allen“ {n}-mal, wenn du es startest', freeJoin: 'Beim Album eines Freundes mitmachen: immer kostenlos',
-    freeChange: 'Ein gesichertes Album zu ändern bleibt kostenlos', perYear: '{price} im Jahr', priceNote: 'Die Preise können je nach Land abweichen.',
+    freeChange: 'Ein gesichertes Album zu ändern bleibt kostenlos', perYear: '{price} einmalig', launchNote: 'Einführungspreis. Später {later}.', priceNote: 'Die Preise können je nach Land abweichen.',
   },
   ro: {
     name: 'Română', locale: 'ro-RO', home: 'Acasă', features: 'Funcții', together: 'Împreună', privacy: 'Confidențialitate',
@@ -80,10 +80,10 @@ const UI = {
     contactTitle: 'Contact', whatsNew: 'Noutăți', whatsComing: 'Ce urmează',
     lookTitle: 'O privire înăuntru', lookSub: 'Găsește-ți călătoriile, păstrează cele mai bune poze și fă albumul cu prietenii.',
     prev: 'Capturile anterioare', next: 'Capturile următoare', close: 'Închide', page: 'Capturi {n}',
-    proTitle: 'Gratuit de încercat. Pro, dacă vrei mai mult.', proSub: 'WePickThePic se descarcă gratuit. Pro este un abonament anual.',
+    proTitle: 'Gratuit de încercat. Pro, dacă vrei mai mult.', proSub: 'WePickThePic se descarcă gratuit. Pro se cumpără o singură dată: fără abonament.',
     free: 'Gratuit', freePrice: 'Se descarcă gratuit', freeAlbums: '{n} albume, singur sau cu prietenii',
     freeEveryone: '„Fotografiile tuturor” de {n} ori, când îl pornești tu', freeJoin: 'Te alături albumului unui prieten mereu gratuit',
-    freeChange: 'Modificarea unui album salvat rămâne gratuită', perYear: '{price} pe an', priceNote: 'Prețurile pot varia de la o țară la alta.',
+    freeChange: 'Modificarea unui album salvat rămâne gratuită', perYear: '{price} o singură dată', launchNote: 'Preț de lansare. Mai târziu {later}.', priceNote: 'Prețurile pot varia de la o țară la alta.',
   },
   es: {
     name: 'Español', locale: 'es-ES', home: 'Inicio', features: 'Funciones', together: 'Juntos', privacy: 'Privacidad',
@@ -100,10 +100,10 @@ const UI = {
     contactTitle: 'Contacto', whatsNew: 'Novedades', whatsComing: 'Lo que viene',
     lookTitle: 'Un vistazo por dentro', lookSub: 'Encuentra tus viajes, quédate con las mejores fotos y haz el álbum con tus amigos.',
     prev: 'Capturas anteriores', next: 'Capturas siguientes', close: 'Cerrar', page: 'Capturas {n}',
-    proTitle: 'Gratis para probar. Pro, si quieres más.', proSub: 'WePickThePic se descarga gratis. Pro es una suscripción anual.',
+    proTitle: 'Gratis para probar. Pro, si quieres más.', proSub: 'WePickThePic se descarga gratis. Pro se compra una sola vez: sin suscripción.',
     free: 'Gratis', freePrice: 'Descarga gratis', freeAlbums: '{n} álbumes, solo o con amigos',
     freeEveryone: '«Las fotos de todos» {n} veces, cuando lo empiezas tú', freeJoin: 'Unirte al álbum de un amigo: siempre gratis',
-    freeChange: 'Cambiar un álbum guardado sigue siendo gratis', perYear: '{price} al año', priceNote: 'Los precios pueden variar según el país.',
+    freeChange: 'Cambiar un álbum guardado sigue siendo gratis', perYear: '{price} una sola vez', launchNote: 'Precio de lanzamiento. Después {later}.', priceNote: 'Los precios pueden variar según el país.',
   },
 };
 
@@ -165,9 +165,12 @@ const proNumber = (name) => Number(proFile.match(new RegExp(`${name} = (\\d+)`))
 const FREE_ALBUMS = proNumber('FREE_ALBUMS');
 const FREE_EVERYONE = proNumber('FREE_EVERYONE_SESSIONS');
 /** '€2.99' → 2.99: the same amount in euros and US dollars (decided 2026-11-21), written the way each language does. */
-const PRO_AMOUNT = Number(proFile.match(/PRO_PRICE_LABEL = '\D*([\d.]+)'/)[1]);
-const money = (lang, currency) =>
-  new Intl.NumberFormat(UI[lang].locale, { style: 'currency', currency, currencyDisplay: 'narrowSymbol' }).format(PRO_AMOUNT);
+const amount = (name) => Number(proFile.match(new RegExp(`${name} = '\\D*([\\d.]+)'`))[1]);
+const PRO_AMOUNT = amount('PRO_PRICE_LABEL');
+/** The price after the launch price (one-time: $4.99 at launch, $6.99 later; decided 2026-11-21). */
+const PRO_LATER_AMOUNT = amount('PRO_LATER_PRICE_LABEL');
+const money = (lang, currency, value = PRO_AMOUNT) =>
+  new Intl.NumberFormat(UI[lang].locale, { style: 'currency', currency, currencyDisplay: 'narrowSymbol' }).format(value);
 
 /**
  * docs/WHATS-NEW.md and docs/ROADMAP.md: an HTML comment, the intro (paragraphs before the first "## "), then
@@ -439,6 +442,7 @@ ${privacySection.items.map((i) => `            <li>${esc(i)}</li>`).join('\n')}
           <div class="card plan pro">
             <h3>${esc(appText(lang, 'app.pro.title'))}</h3>
             <div class="price">${esc(ui.perYear.replace('{price}', `${money(lang, 'EUR')} / ${money(lang, 'USD')}`))}</div>
+            <div class="price-note">${esc(ui.launchNote.replace('{later}', `${money(lang, 'EUR', PRO_LATER_AMOUNT)} / ${money(lang, 'USD', PRO_LATER_AMOUNT)}`))}</div>
             <ul>
               <li>${esc(appText(lang, 'app.pro.featureAlbums'))}</li>
               <li>${esc(appText(lang, 'app.pro.featureEveryone'))}</li>
@@ -546,9 +550,9 @@ const TERMS = [
   ['Your photos', 'Your photos stay in your own Photos library; WePickThePic never deletes a photo, and we don’t have servers that store anything. You are responsible for your photos and for keeping your iPhone backed up. See the <a href="/privacy/">privacy policy</a> for details.'],
   ['Making an album together', 'When you make an album with friends, you decide which photos you share, and your friends decide which photos they share and receive. Only share with people you trust: photos your friends receive are saved in their own Photos library and are theirs to keep. Make sure you may share the photos you share, for example of other people.'],
   ['Purchases', 'For an in-app purchase, the price is shown in the App Store before you buy. Payment, receipts and refunds are handled by Apple under its terms; refund requests go to Apple. You can restore a purchase on a new iPhone with the same Apple Account.'],
-  ['WePickThePic Pro', 'WePickThePic is free to download. WePickThePic Pro is a yearly subscription through the App Store that lets you make as many albums as you like; the price is shown before you subscribe. It renews automatically every year until you cancel it in the App Store, at least 24 hours before the end of the current year. Apple handles payment, renewals and refunds, and <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Apple’s standard Licensed Application End User License Agreement</a> applies.'],
+  ['WePickThePic Pro', 'WePickThePic is free to download. WePickThePic Pro is a one-time purchase through the App Store that lets you make as many albums as you like; the price is shown before you buy. There is no subscription. Apple handles payment and refunds, and <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Apple’s standard Licensed Application End User License Agreement</a> applies.'],
   ['Availability and changes', 'We work to keep the app reliable but can’t guarantee it will always be free of errors or available on every device. We may update the app and these terms; important changes will be announced in the app or on this page, with a new effective date.'],
-  ['Liability', 'To the extent permitted by law, the app is provided “as is”, and our liability for any damage related to its use is limited to what you paid for WePickThePic Pro in the 12 months before the damage. Nothing in these terms limits your statutory rights as a consumer, or liability that can’t be limited by law (for example for intent or gross negligence).'],
+  ['Liability', 'To the extent permitted by law, the app is provided “as is”, and our liability for any damage related to its use is limited to what you paid for WePickThePic Pro. Nothing in these terms limits your statutory rights as a consumer, or liability that can’t be limited by law (for example for intent or gross negligence).'],
   ['Law and disputes', 'These terms are governed by the law of Romania, without affecting the mandatory consumer protection rules of the country where you live.'],
   ['Contact', `Questions about these terms? Write to <a href="mailto:${EMAIL}">${EMAIL}</a>.`],
 ];

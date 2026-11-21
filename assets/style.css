@@ -171,6 +171,7 @@ section p.sub { color: var(--muted); margin: 0 0 28px; max-width: 680px; }
 .plan ul { padding-left: 20px; margin: 12px 0 0; color: var(--muted); }
 .plan.pro { border: 2px solid var(--brand); }
 .price { font-size: 15px; font-weight: 700; color: var(--brand); }
+.price-note { font-size: 13px; font-weight: 600; color: var(--muted); margin-top: 4px; }
 .note { background: var(--brand-soft); border-radius: 12px; padding: 14px 18px; margin-top: 16px; font-size: 15px; }
 
 /* Text pages (privacy, terms, support) */
