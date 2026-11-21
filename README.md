@@ -5,10 +5,12 @@ Plain HTML and CSS; deployed with Cloudflare Workers on wepickthepic.app (like g
 
 | Page | URL | Built from (app repository, `../VoyageVault`) |
 |---|---|---|
-| Homepage | https://wepickthepic.app/ (and /de/, /ro/, /es/) | `docs/STORE-LISTING*.md`: tagline, proof line, description |
+| Homepage | https://wepickthepic.app/ (and /de/, /ro/, /es/) | `docs/STORE-LISTING*.md`: tagline, proof line, description; screenshots from `store-assets/web/<language>/` (English ones when a language has none, no gallery when there are none) with `store-assets/captions.json`; pricing from `src/lib/pro.ts` and `src/locales/<language>/app.ts` |
 | Privacy policy | https://wepickthepic.app/privacy/ (and /de/privacy/ …) | `src/lib/legal.ts`, `src/locales/<language>/privacy.ts`: the policy shown in the app; the English one is binding |
 | Support | https://wepickthepic.app/support/ (and /de/support/ …) | `docs/SUPPORT*.md` |
 | Terms | https://wepickthepic.app/terms/ | `TERMS` in `scripts/build.mjs` (English only) |
+| What's new | https://wepickthepic.app/changes/ | `docs/WHATS-NEW.md` (English only) |
+| What's coming | https://wepickthepic.app/roadmap/ | `docs/ROADMAP.md` (English only) |
 
 ## Changing the site
 
@@ -25,7 +27,7 @@ git commit -am "…" && git push   # Cloudflare publishes the push
       app has its own icon.
 - [ ] **Terms**: have them reviewed; the effective date follows `PRIVACY_EFFECTIVE_DATE` in `src/lib/legal.ts`.
 - [ ] **Store link**: replace the "Coming soon" button with the official App Store badge and link.
-- [ ] Screenshots, when the store screenshots exist.
+- [ ] Screenshots: run `npm run screenshots` in the app repository, then build; the gallery appears by itself.
 
 ## Hosting
 
