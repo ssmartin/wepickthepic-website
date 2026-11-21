@@ -1,0 +1,10 @@
+// Cloudflare Workers: the site is static files only (no Worker code). Deployed by Workers Builds on every push.
+{
+  "name": "wepickthepic-website",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
