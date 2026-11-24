@@ -326,9 +326,15 @@ function headline(tagline, best) {
 function home(lang, shots) {
   const ui = UI[lang];
   const l = listing(lang);
-  const [lead, what, together] = l.paragraphs;
-  // The description's sections, in order: picks the best, finds your trips, together, private, nothing deleted.
-  const [picks, trips, togetherSection, privacySection, kept] = l.sections;
+  // The description (restructured like OurCents, 2026-11-25): a lead line, then one paragraph whose last sentence
+  // is the together question ("Travelled with friends or family? Make the album together, …"), then the sections
+  // in order: picks the best, together, private, nothing deleted, finds your trips, free and Pro.
+  const [lead, whatAll] = l.paragraphs;
+  const asks = whatAll.lastIndexOf('?');
+  const split = whatAll.lastIndexOf('. ', asks) + 2;
+  const what = whatAll.slice(0, split).trim();
+  const together = whatAll.slice(split);
+  const [picks, togetherSection, privacySection, kept, trips] = l.sections;
   const cards = [
     ['✨', picks],
     ['🗺️', trips],
